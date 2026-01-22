@@ -1,0 +1,130 @@
+seed: 0
+device: cuda  # or cpu
+
+# Environment Configuration
+env:
+  im_width: 256
+  im_height: 128
+  latent_dim: 128
+
+# Image capture for semantic datasets
+image_capture:
+  enabled: false
+  output_dir: captures/agent
+  interval_ms: 125
+  width: 256
+  height: 128
+  prefix: agent_semantic
+
+# Training Configuration
+train:
+  total_timesteps: 2000000
+  episode_length: 7500
+  test_timesteps: 50000
+  batch_size: 256
+  warmup_steps: 2000  # Minimum: should be >= batch_size (256) to ensure full batch sampling
+  gradient_steps: 1
+  updates_per_step: 1
+  eval_interval_episodes: 10
+  save_interval_episodes: 100
+
+# SAC Hyperparameters
+sac:
+  gamma: 0.99  # Discount factor
+  tau: 0.005  # Target network update rate
+  actor_lr: 0.0003  # 3e-4
+  critic_lr: 0.0003  # 3e-4
+  alpha_lr: 0.0003  # 3e-4
+  target_entropy_coeff: 0.5  # scales -action_dim
+  init_alpha: 0.2
+  auto_alpha: true
+
+# Replay Buffer Configuration
+replay_buffer:
+  capacity: 1000000  # 1M samples
+  n_step: 1
+  prioritized: false
+
+# Agent Configuration
+agent:
+  action_dim: 2
+  obs_dim: 133
+  action_clip_tanh: true
+  action_noise_std: 0.1  # Add noise to encourage exploration
+
+# Multi-Critic Deep Ensemble Configuration
+multi_critic:
+  num_critics: 5  # Ensemble size (K) - increased from 3 to 5
+  ensemble_type: mean  # Options: 'mean', 'min', 'weighted_mean'
+                       # 'mean': Average of all critics (standard ensemble)
+                       # 'min': Pessimistic Q-value (conservative)
+                       # 'weighted_mean': Inverse variance weighting (uncertainty-aware)
+
+# Spatio-Temporal Transformer Configuration
+transformer:
+  # CNN Backbone
+  cnn_backbone: ResNet18  # Options: 'ResNet18', 'EfficientNet-B0'
+  pretrained: true  # Use pretrained weights
+  
+  # Temporal Configuration
+  sequence_length: 8  # Number of frames (T)
+  
+  # Transformer Architecture
+  d_model: 512  # Model dimension
+  n_heads: 8  # Number of attention heads
+  n_layers: 6  # Number of transformer layers
+  dim_feedforward: 2048  # Feedforward dimension (4 * d_model)
+  dropout: 0.1
+  activation: relu  # Options: 'relu', 'gelu'
+
+# Actor Network Configuration
+actor:
+  hidden_dims: [256, 256]  # MLP hidden dimensions
+  log_std_min: -20  # Lower bound for log std
+  log_std_max: 2  # Upper bound for log std
+  input_dim: 512  # From transformer output
+
+# Critic Ensemble Configuration
+critic:
+  hidden_dims: [512, 256, 128]  # MLP hidden dimensions
+  input_dim: 514  # 512 (state) + 2 (action_dim)
+  initialization: xavier_uniform  # Xavier Uniform with different seeds per critic
+  weight_decay: 0.0  # L2 regularization
+  use_batch_norm: false  # Batch normalization in critic networks
+
+# Trust & Safety Configuration (Control Barrier Function)
+trust_safety:
+  # Trust Score Calculation
+  trust_scaling: 1.0  # Lambda (λ) - trust scaling factor for C(s,a) = exp(-λ·Var)
+  use_trust_aware_loss: false  # Weight critic loss by trust score (experimental)
+  
+  # Control Barrier Function (CBF) Parameters
+  trust_threshold: 0.5  # Trust threshold for CBF
+  cbf_gamma: 1.0  # Gamma for CBF (γ_cbf)
+  
+  # QP Solver Configuration
+  qp_solver_optimization: true  # Use Quadratic Programming solver for safety
+  qp_solver_epsilon: 1.0e-6  # Epsilon for QP solver tolerance
+  
+  # Safety Constraints
+  enable_safety: true  # Enable CBF safety layer (disabled initially for exploration)
+  max_lateral_acceleration: 5.0  # m/s^2
+  max_longitudinal_acceleration: 6.0  # m/s^2
+  collision_detection_margin: 0.5  # meters
+  
+  # Vehicle Parameters for CBF
+  vehicle_length: 4.5  # meters
+  vehicle_width: 2.0  # meters
+  reaction_time: 0.1  # seconds
+  min_speed: 0.0  # m/s
+  max_speed: 20.0  # m/s (≈72 km/h)
+
+# Visualization & Logging
+logging:
+  tensorboard_dir: runs
+  log_interval: 100  # Log every N steps
+  save_checkpoints: true
+  checkpoint_interval: 10000  # Save checkpoint every N steps
+  visualize_attention: false  # Visualize transformer attention maps
+  log_uncertainty: true  # Log ensemble uncertainty estimates
+  log_safety_interventions: true  # Log when CBF safety layer activates

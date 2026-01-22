@@ -1,0 +1,9 @@
+PyYAML>=6.0
+torch>=1.12
+numpy>=1.23
+scipy>=1.9.0  # Required for QP solver in CBF safety layer
+tensorboard>=2.10
+pygame
+carla
+tensorboard
+Pillow==9.4.0
